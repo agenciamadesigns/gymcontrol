@@ -1647,3 +1647,8 @@ button:active,
   margin: 0;
   font-weight: 700;
 }
+
+#qrCliente {
+  display: block;
+  margin: 25px auto 0;
+}
