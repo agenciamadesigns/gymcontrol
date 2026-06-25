@@ -4,7 +4,7 @@
   "start_url": "admin.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#020617",
+  "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "description": "Sistema de control de clientes, membresías y accesos QR para gimnasios.",
   "icons": [
