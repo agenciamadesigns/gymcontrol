@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Gym</title>
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <h2>Gym System</h2>
+    <p>Panel administrativo</p>
+
+    <a href="admin.html">Clientes</a>
+    <a href="scanner.html">Escanear QR</a>
+
+    <button onclick="logout()">Cerrar sesión</button>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <span class="eyebrow">Panel administrativo</span>
+        <h1>Clientes</h1>
+        <p>Control de membresías, clientes y accesos QR</p>
+      </div>
+
+      <div class="top-actions">
+        <span id="fechaActual"></span>
+        <a href="scanner.html" class="btn-scan">Escanear QR</a>
+      </div>
+    </div>
+
+    <section class="stats">
+      <div>
+        <h3 id="totalClientes">0</h3>
+        <p>Total clientes</p>
+      </div>
+
+      <div>
+        <h3 id="clientesActivos">0</h3>
+        <p>Activos</p>
+      </div>
+
+      <div>
+        <h3 id="clientesVencidos">0</h3>
+        <p>Vencidos</p>
+      </div>
+    </section>
+
+    <button class="btn-nuevo-cliente" onclick="abrirModalCliente()">
+        + Registrar cliente
+    </button>
+
+    <section class="clientes-section">
+      <h2>Lista de clientes</h2>
+      <div id="listaClientes"></div>
+    </section>
+
+  </main>
+</div>
+
+<div id="modalCliente" class="modal-cliente">
+  <div class="wizard-card">
+
+    <div class="wizard-header">
+      <div>
+        <span class="eyebrow">Nuevo cliente</span>
+        <h2>Registrar cliente</h2>
+      </div>
+
+      <button class="cerrar-modal" onclick="cerrarModalCliente()">×</button>
+    </div>
+
+    <div class="wizard-progress">
+      <div id="wizardBar"></div>
+    </div>
+
+    <div class="wizard-steps-labels">
+      <span id="labelPaso1" class="activo-step">Datos</span>
+      <span id="labelPaso2">Foto</span>
+      <span id="labelPaso3">Membresía</span>
+      <span id="labelPaso4">Resumen</span>
+    </div>
+
+    <!-- PASO 1 -->
+    <div class="wizard-step activo" id="paso1">
+      <h3>Datos personales</h3>
+      <p>Información básica del cliente.</p>
+
+      <input type="text" id="nombre" placeholder="Nombre completo">
+      <input type="text" id="telefono" placeholder="Teléfono">
+      <input type="email" id="emailCliente" placeholder="Correo">
+
+      <button onclick="siguientePaso(2)">Siguiente</button>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="wizard-step" id="paso2">
+      <h3>Foto del cliente</h3>
+      <p>Captura una fotografía para identificarlo en recepción.</p>
+
+      <div class="foto-box">
+        <div class="foto-preview-wrap">
+          <img id="previewFoto" alt="Foto del cliente">
+          <div id="fotoPlaceholder">📷</div>
+        </div>
+
+        <button type="button" onclick="abrirModalFoto()">Capturar foto</button>
+      </div>
+
+      <div class="wizard-actions">
+        <button class="btn-secundario" onclick="siguientePaso(1)">Atrás</button>
+        <button onclick="siguientePaso(3)">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="wizard-step" id="paso3">
+      <h3>Membresía</h3>
+      <p>Define el plan y vigencia del cliente.</p>
+
+      <label>Duración de membresía</label>
+<select id="tipoMembresia" onchange="calcularVencimiento()">
+  <option value="1">1 mes</option>
+  <option value="2">2 meses</option>
+  <option value="3">3 meses</option>
+  <option value="4">4 meses</option>
+  <option value="5">5 meses</option>
+  <option value="6">6 meses</option>
+  <option value="7">7 meses</option>
+  <option value="8">8 meses</option>
+  <option value="9">9 meses</option>
+  <option value="10">10 meses</option>
+  <option value="11">11 meses</option>
+  <option value="12">12 meses</option>
+</select>
+
+      <label>Fecha inicio</label>
+      <input type="date" id="fechaInicio" onchange="calcularVencimiento()">
+
+      <label>Fecha vencimiento</label>
+      <input type="date" id="fechaVencimiento" readonly>
+
+      <div class="wizard-actions">
+        <button class="btn-secundario" onclick="siguientePaso(2)">Atrás</button>
+        <button onclick="prepararResumen()">Siguiente</button>
+      </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="wizard-step" id="paso4">
+      <h3>Confirmar registro</h3>
+      <p>Revisa la información antes de guardar.</p>
+
+      <div id="resumenCliente" class="resumen-cliente"></div>
+
+      <div class="wizard-actions">
+        <button class="btn-secundario" onclick="siguientePaso(3)">Atrás</button>
+        <button onclick="registrarCliente()">Guardar cliente</button>
+      </div>
+
+      <p id="mensajeCliente"></p>
+    </div>
+
+  </div>
+</div>
+
+<div id="modalPerfil" class="modal-perfil">
+  <div class="perfil-modal-card">
+    
+    <button class="cerrar-modal perfil-cerrar" onclick="cerrarPerfilCliente()">×</button>
+
+    <div id="contenidoPerfil">
+      Cargando perfil...
+    </div>
+
+  </div>
+</div>
+
+<div id="modalFoto" class="modal-foto">
+  <div class="modal-foto-card">
+    <h2>Capturar foto</h2>
+    <p>Coloca al cliente frente a la cámara</p>
+
+    <video id="videoFoto" autoplay playsinline></video>
+    <canvas id="canvasFoto" style="display:none;"></canvas>
+
+    <div class="modal-actions">
+      <button type="button" onclick="tomarFotoCliente()">Tomar foto</button>
+      <button type="button" class="btn-cancelar" onclick="cerrarModalFoto()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="supabase.js"></script>
+<script src="admin.js"></script>
+
+</body>
+</html>

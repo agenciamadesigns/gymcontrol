@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Escáner QR</title>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22c55e">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+
+<div class="scanner-page">
+  <h1>Escanear acceso</h1>
+
+  <div id="reader"></div>
+
+  <button onclick="activarSonidoScanner()" class="btn-audio">
+    Activar sonido
+  </button>
+
+  <div id="resultado" class="resultado">
+    Escanea el QR del cliente
+  </div>
+
+  <div id="alertaScan" class="alerta-scan"></div>
+
+  <div id="overlayAcceso" class="overlay-acceso">
+  <div class="overlay-card" id="overlayCard">
+    <div id="overlayIcono" class="overlay-icono">✅</div>
+    <h2 id="overlayTitulo">Acceso permitido</h2>
+    <h3 id="overlayNombre">Cliente</h3>
+    <p id="overlayDetalle">Membresía vigente</p>
+  </div>
+</div>
+
+  <a href="admin.html">Volver al panel</a>
+</div>
+
+<script src="supabase.js"></script>
+
+<script src="scanner.js"></script>
+</body>
+</html>

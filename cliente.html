@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Credencial Gym</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22c55e">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+
+<div class="cliente-app">
+  <div class="cliente-card-app">
+
+    <h1>Mi Credencial</h1>
+    <p class="subtitulo">Acceso digital al gimnasio</p>
+
+    <div id="estadoCliente">
+      Cargando información...
+    </div>
+
+    <canvas id="qrCliente"></canvas>
+
+    <p class="nota-qr">Muestra este código en recepción</p>
+
+  </div>
+</div>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+</script>
+
+<script src="supabase.js"></script>
+
+<script src="cliente.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Gym System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22c55e">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="login-screen">
+  <div class="login-card">
+    <h1>Gym System</h1>
+    <p>Acceso administrativo</p>
+
+    <input type="email" id="email" placeholder="Correo">
+    <input type="password" id="password" placeholder="Contraseña">
+
+    <button onclick="login()">Entrar</button>
+
+    <p id="mensaje"></p>
+  </div>
+</div>
+
+<script src="supabase.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>
