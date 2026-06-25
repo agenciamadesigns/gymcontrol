@@ -1630,3 +1630,20 @@ button:active,
   display: none !important;
   content: none !important;
 }
+
+.qr-bloqueado {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 22px;
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.qr-bloqueado h3 {
+  margin: 0 0 8px;
+}
+
+.qr-bloqueado p {
+  margin: 0;
+  font-weight: 700;
+}

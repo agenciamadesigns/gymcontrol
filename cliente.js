@@ -51,8 +51,21 @@ if (token) {
     </div>
   `;
 
+if (!vencido && cliente.estado === "Activo") {
   QRCode.toCanvas(qrCanvas, cliente.qr_token, {
     width: 240,
     margin: 2
   });
+
+  qrCanvas.style.display = "block";
+} else {
+  qrCanvas.style.display = "none";
+
+  estadoCliente.innerHTML += `
+    <div class="qr-bloqueado">
+      <h3>QR bloqueado</h3>
+      <p>Tu membresía está vencida. Renueva en recepción para volver a activar tu acceso.</p>
+    </div>
+  `;
+}
 }
