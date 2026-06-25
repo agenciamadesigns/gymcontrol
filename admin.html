@@ -125,37 +125,60 @@
     </div>
 
     <!-- PASO 3 -->
-    <div class="wizard-step" id="paso3">
-      <h3>Membresía</h3>
-      <p>Define el plan y vigencia del cliente.</p>
+<!-- PASO 3 -->
+<div class="wizard-step" id="paso3">
+  <h3>Membresía</h3>
+  <p>Selecciona la duración de la membresía.</p>
 
-      <label>Duración de membresía</label>
-<select id="tipoMembresia" onchange="calcularVencimiento()">
-  <option value="1">1 mes</option>
-  <option value="2">2 meses</option>
-  <option value="3">3 meses</option>
-  <option value="4">4 meses</option>
-  <option value="5">5 meses</option>
-  <option value="6">6 meses</option>
-  <option value="7">7 meses</option>
-  <option value="8">8 meses</option>
-  <option value="9">9 meses</option>
-  <option value="10">10 meses</option>
-  <option value="11">11 meses</option>
-  <option value="12">12 meses</option>
-</select>
+  <input type="hidden" id="tipoMembresia" value="1 mes">
 
-      <label>Fecha inicio</label>
-      <input type="date" id="fechaInicio" onchange="calcularVencimiento()">
+  <div class="planes-renovar planes-registro">
+    <button type="button" class="plan-card activo" onclick="seleccionarPlanRegistro(1, this)">
+      <strong>1 mes</strong>
+      <span>Mensual</span>
+    </button>
 
-      <label>Fecha vencimiento</label>
-      <input type="date" id="fechaVencimiento" readonly>
+    <button type="button" class="plan-card" onclick="seleccionarPlanRegistro(2, this)">
+      <strong>2 meses</strong>
+      <span>Bimestral</span>
+    </button>
 
-      <div class="wizard-actions">
-        <button class="btn-secundario" onclick="siguientePaso(2)">Atrás</button>
-        <button onclick="prepararResumen()">Siguiente</button>
-      </div>
+    <button type="button" class="plan-card" onclick="seleccionarPlanRegistro(3, this)">
+      <strong>3 meses</strong>
+      <span>Trimestral</span>
+    </button>
+
+    <button type="button" class="plan-card" onclick="seleccionarPlanRegistro(6, this)">
+      <strong>6 meses</strong>
+      <span>Semestral</span>
+    </button>
+
+    <button type="button" class="plan-card" onclick="seleccionarPlanRegistro(12, this)">
+      <strong>12 meses</strong>
+      <span>Anual</span>
+    </button>
+  </div>
+
+  <div class="renovar-info">
+    <div>
+      <span>Fecha inicio</span>
+      <strong id="fechaInicioVista">--</strong>
     </div>
+
+    <div>
+      <span>Fecha vencimiento</span>
+      <strong id="fechaVencimientoVista">--</strong>
+    </div>
+  </div>
+
+  <input type="hidden" id="fechaInicio">
+  <input type="hidden" id="fechaVencimiento">
+
+  <div class="wizard-actions">
+    <button type="button" class="btn-secundario" onclick="siguientePaso(2)">Atrás</button>
+    <button type="button" onclick="prepararResumen()">Siguiente</button>
+  </div>
+</div>
 
     <!-- PASO 4 -->
     <div class="wizard-step" id="paso4">
@@ -182,6 +205,82 @@
 
     <div id="contenidoPerfil">
       Cargando perfil...
+    </div>
+
+  </div>
+</div>
+
+<div id="modalRenovar" class="modal-renovar">
+  <div class="renovar-card">
+
+    <div class="renovar-header">
+      <div>
+        <span class="eyebrow">Renovación</span>
+        <h2>Renovar membresía</h2>
+        <p id="renovarClienteNombre">Cliente</p>
+      </div>
+
+      <button class="cerrar-modal" onclick="cerrarModalRenovar()">×</button>
+    </div>
+
+    <div class="renovar-info">
+      <div>
+        <span>Vencimiento actual</span>
+        <strong id="renovarVenceActual">--</strong>
+      </div>
+
+      <div>
+        <span>Nueva vigencia</span>
+        <strong id="renovarNuevaFecha">--</strong>
+      </div>
+    </div>
+
+    <h3>Selecciona un plan</h3>
+
+    <div class="planes-renovar">
+      <button class="plan-card" onclick="seleccionarPlanRenovar(1, this)">
+        <strong>1 mes</strong>
+        <span>Mensual</span>
+      </button>
+
+      <button class="plan-card" onclick="seleccionarPlanRenovar(2, this)">
+        <strong>2 meses</strong>
+        <span>Bimestral</span>
+      </button>
+
+      <button class="plan-card" onclick="seleccionarPlanRenovar(3, this)">
+        <strong>3 meses</strong>
+        <span>Trimestral</span>
+      </button>
+
+      <button class="plan-card" onclick="seleccionarPlanRenovar(6, this)">
+        <strong>6 meses</strong>
+        <span>Semestral</span>
+      </button>
+
+      <button class="plan-card" onclick="seleccionarPlanRenovar(12, this)">
+        <strong>12 meses</strong>
+        <span>Anual</span>
+      </button>
+    </div>
+
+    <label>Método de pago</label>
+    <select id="metodoPagoRenovar">
+      <option value="Efectivo">Efectivo</option>
+      <option value="Tarjeta">Tarjeta</option>
+      <option value="Transferencia">Transferencia</option>
+      <option value="Cortesía">Cortesía</option>
+    </select>
+
+    <label>Monto pagado</label>
+    <input type="number" id="montoRenovar" placeholder="Ejemplo: 700">
+
+    <label>Observaciones</label>
+    <input type="text" id="notasRenovar" placeholder="Opcional">
+
+    <div class="renovar-actions">
+      <button class="btn-secundario" onclick="cerrarModalRenovar()">Cancelar</button>
+      <button onclick="confirmarRenovacion()">Renovar membresía</button>
     </div>
 
   </div>

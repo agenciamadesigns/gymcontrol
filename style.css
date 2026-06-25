@@ -1652,3 +1652,207 @@ button:active,
   display: block;
   margin: 25px auto 0;
 }
+
+/* MODAL RENOVAR MEMBRESÍA */
+
+.modal-renovar {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, .55);
+  backdrop-filter: blur(12px);
+  display: none;
+  place-items: center;
+  z-index: 99999;
+  padding: 24px;
+}
+
+.modal-renovar.activo {
+  display: grid;
+}
+
+.renovar-card {
+  width: 100%;
+  max-width: 720px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 34px;
+  padding: 30px;
+  box-shadow: var(--shadow-strong);
+}
+
+.renovar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.renovar-header h2 {
+  margin: 6px 0 4px;
+  font-size: 34px;
+  letter-spacing: -1.2px;
+}
+
+.renovar-header p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.renovar-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.renovar-info div {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.renovar-info span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.renovar-info strong {
+  font-size: 22px;
+  color: var(--primary-dark);
+}
+
+.renovar-card h3 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  letter-spacing: -.7px;
+}
+
+.planes-renovar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.plan-card {
+  background: #f8fafc;
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  border-radius: 22px;
+  padding: 18px 12px;
+  text-align: center;
+}
+
+.plan-card:hover {
+  transform: translateY(-3px);
+  background: var(--primary-soft);
+  box-shadow: none;
+}
+
+.plan-card.activo {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.plan-card strong {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.plan-card span {
+  display: block;
+  font-size: 12px;
+  opacity: .75;
+}
+
+.renovar-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+@media (max-width: 800px) {
+  .renovar-card {
+    max-height: 94vh;
+    border-radius: 26px;
+    padding: 22px;
+  }
+
+  .renovar-info {
+    grid-template-columns: 1fr;
+  }
+
+  .planes-renovar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .renovar-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ARREGLO DEFINITIVO PARA TODOS LOS MODALES */
+.modal-cliente,
+.modal-perfil,
+.modal-foto,
+.modal-renovar,
+.overlay-acceso {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
+  border-radius: 0 !important;
+  background: rgba(15, 23, 42, .55) !important;
+  backdrop-filter: blur(12px) !important;
+  display: none !important;
+  place-items: center !important;
+  z-index: 999999 !important;
+  padding: 24px !important;
+}
+
+.modal-cliente.activo,
+.modal-perfil.activo,
+.modal-foto.activo,
+.modal-renovar.activo,
+.overlay-acceso.activo {
+  display: grid !important;
+}
+
+.modal-cliente::before,
+.modal-cliente::after,
+.modal-perfil::before,
+.modal-perfil::after,
+.modal-foto::before,
+.modal-foto::after,
+.modal-renovar::before,
+.modal-renovar::after,
+.overlay-acceso::before,
+.overlay-acceso::after {
+  display: none !important;
+  content: none !important;
+}
+
+.planes-registro {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 800px) {
+  .planes-registro {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -25,8 +25,7 @@ async function registrarCliente() {
   const nombre = document.getElementById("nombre").value;
   const telefono = document.getElementById("telefono").value;
   const email = document.getElementById("emailCliente").value;
-  const mesesMembresia = document.getElementById("tipoMembresia").value;
-  const tipo_membresia = `${mesesMembresia} ${mesesMembresia == 1 ? "mes" : "meses"}`;
+  const tipo_membresia = document.getElementById("tipoMembresia").value;
   const fecha_inicio = document.getElementById("fechaInicio").value;
   const fecha_vencimiento = document.getElementById("fechaVencimiento").value;
   const mensaje = document.getElementById("mensajeCliente");
@@ -154,27 +153,114 @@ card.innerHTML = `
   document.getElementById("clientesVencidos").textContent = vencidos;
 }
 
+let clienteRenovarId = null;
+let clienteRenovarData = null;
+let mesesSeleccionados = 1;
+let nuevaFechaRenovacion = null;
+
 async function renovarCliente(id) {
-  const nuevaFecha = prompt("Nueva fecha de vencimiento, ejemplo: 2026-07-24");
+  clienteRenovarId = id;
 
-  if (!nuevaFecha) return;
-
-  const { error } = await supabaseClient
+  const { data: cliente, error } = await supabaseClient
     .from("clientes")
-    .update({
-      fecha_vencimiento: nuevaFecha,
-      estado: "Activo"
-    })
-    .eq("id", id);
+    .select("*")
+    .eq("id", id)
+    .single();
 
-  if (error) {
-    alert("Error al renovar");
+  if (error || !cliente) {
+    alert("No se pudo cargar el cliente");
     console.log(error);
     return;
   }
 
-  alert("Membresía renovada");
+  clienteRenovarData = cliente;
+
+  document.getElementById("renovarClienteNombre").textContent = cliente.nombre;
+  document.getElementById("renovarVenceActual").textContent = cliente.fecha_vencimiento || "Sin fecha";
+
+  document.getElementById("montoRenovar").value = "";
+  document.getElementById("notasRenovar").value = "";
+  document.getElementById("metodoPagoRenovar").value = "Efectivo";
+
+  document.querySelectorAll(".plan-card").forEach(card => {
+    card.classList.remove("activo");
+  });
+
+  const primerPlan = document.querySelector(".plan-card");
+  seleccionarPlanRenovar(1, primerPlan);
+
+  document.getElementById("modalRenovar").classList.add("activo");
+}
+
+function seleccionarPlanRenovar(meses, boton) {
+  mesesSeleccionados = meses;
+
+  document.querySelectorAll(".plan-card").forEach(card => {
+    card.classList.remove("activo");
+  });
+
+  if (boton) {
+    boton.classList.add("activo");
+  }
+
+  const hoy = new Date();
+  const fechaBase = new Date(hoy.toISOString().split("T")[0] + "T00:00:00");
+
+  fechaBase.setMonth(fechaBase.getMonth() + meses);
+
+  const yyyy = fechaBase.getFullYear();
+  const mm = String(fechaBase.getMonth() + 1).padStart(2, "0");
+  const dd = String(fechaBase.getDate()).padStart(2, "0");
+
+  nuevaFechaRenovacion = `${yyyy}-${mm}-${dd}`;
+
+  document.getElementById("renovarNuevaFecha").textContent = nuevaFechaRenovacion;
+}
+
+function cerrarModalRenovar() {
+  document.getElementById("modalRenovar").classList.remove("activo");
+}
+
+async function confirmarRenovacion() {
+  if (!clienteRenovarId || !nuevaFechaRenovacion) {
+    alert("Selecciona un plan");
+    return;
+  }
+
+  const monto = document.getElementById("montoRenovar").value;
+  const metodo = document.getElementById("metodoPagoRenovar").value;
+  const notas = document.getElementById("notasRenovar").value;
+
+  const { error } = await supabaseClient
+    .from("clientes")
+    .update({
+      fecha_vencimiento: nuevaFechaRenovacion,
+      tipo_membresia: `${mesesSeleccionados} ${mesesSeleccionados === 1 ? "mes" : "meses"}`,
+      estado: "Activo"
+    })
+    .eq("id", clienteRenovarId);
+
+  if (error) {
+    alert("Error al renovar membresía");
+    console.log(error);
+    return;
+  }
+
+  if (monto) {
+  await supabaseClient.from("pagos").insert([
+    {
+      cliente_id: clienteRenovarId,
+      monto: Number(monto),
+      concepto: `Renovación ${mesesSeleccionados} ${mesesSeleccionados === 1 ? "mes" : "meses"} - ${metodo}`
+    }
+  ]);
+}
+
   await cargarClientes();
+
+  cerrarModalRenovar();
+
+  alert("Membresía renovada correctamente");
 }
 
 async function eliminarCliente(id) {
@@ -317,6 +403,9 @@ function abrirModalCliente() {
   document.getElementById("modalCliente").classList.add("activo");
   siguientePaso(1);
   ponerFechaInicioHoy();
+
+    const primerPlan = document.querySelector(".planes-registro .plan-card");
+  seleccionarPlanRegistro(1, primerPlan);
 }
 
 function cerrarModalCliente() {
@@ -358,8 +447,7 @@ function prepararResumen() {
   const nombre = document.getElementById("nombre").value;
   const telefono = document.getElementById("telefono").value;
   const email = document.getElementById("emailCliente").value;
-  const meses = document.getElementById("tipoMembresia").value;
-  const tipo = `${meses} ${meses == 1 ? "mes" : "meses"}`;
+  const tipo = document.getElementById("tipoMembresia").value;
   const inicio = document.getElementById("fechaInicio").value;
   const vencimiento = document.getElementById("fechaVencimiento").value;
 
@@ -583,4 +671,43 @@ function calcularVencimiento() {
   const dd = String(fecha.getDate()).padStart(2, "0");
 
   fechaVencimientoInput.value = `${yyyy}-${mm}-${dd}`;
+}
+
+let mesesRegistroSeleccionados = 1;
+
+function seleccionarPlanRegistro(meses, boton) {
+  mesesRegistroSeleccionados = meses;
+
+  document.querySelectorAll(".planes-registro .plan-card").forEach(card => {
+    card.classList.remove("activo");
+  });
+
+  if (boton) {
+    boton.classList.add("activo");
+  }
+
+  const hoy = new Date();
+  const yyyyInicio = hoy.getFullYear();
+  const mmInicio = String(hoy.getMonth() + 1).padStart(2, "0");
+  const ddInicio = String(hoy.getDate()).padStart(2, "0");
+
+  const fechaInicio = `${yyyyInicio}-${mmInicio}-${ddInicio}`;
+
+  const fechaVence = new Date(hoy);
+  fechaVence.setMonth(fechaVence.getMonth() + meses);
+
+  const yyyyVence = fechaVence.getFullYear();
+  const mmVence = String(fechaVence.getMonth() + 1).padStart(2, "0");
+  const ddVence = String(fechaVence.getDate()).padStart(2, "0");
+
+  const fechaVencimiento = `${yyyyVence}-${mmVence}-${ddVence}`;
+
+  document.getElementById("tipoMembresia").value =
+    `${meses} ${meses === 1 ? "mes" : "meses"}`;
+
+  document.getElementById("fechaInicio").value = fechaInicio;
+  document.getElementById("fechaVencimiento").value = fechaVencimiento;
+
+  document.getElementById("fechaInicioVista").textContent = fechaInicio;
+  document.getElementById("fechaVencimientoVista").textContent = fechaVencimiento;
 }
