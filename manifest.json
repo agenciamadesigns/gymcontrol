@@ -1,12 +1,12 @@
 {
-  "name": "Gym Control",
-  "short_name": "Gym Control",
-  "start_url": "admin.html",
+  "name": "Mi Acceso Gym",
+  "short_name": "Mi Gym",
+  "start_url": "cliente.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
-  "description": "Sistema de control de clientes, membresías y accesos QR para gimnasios.",
+  "description": "Credencial digital con QR para acceso al gimnasio.",
   "icons": [
     {
       "src": "img/logo.jpg",

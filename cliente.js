@@ -3,8 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function cargarCliente() {
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get("token");
+const params = new URLSearchParams(window.location.search);
+let token = params.get("token");
+
+if (token) {
+  localStorage.setItem("cliente_token", token);
+} else {
+  token = localStorage.getItem("cliente_token");
+}
 
   const estadoCliente = document.getElementById("estadoCliente");
   const qrCanvas = document.getElementById("qrCliente");
