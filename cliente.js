@@ -57,7 +57,8 @@ if (!vencido && cliente.estado === "Activo") {
     margin: 2
   });
 
-  qrCanvas.style.display = "block";
+qrCanvas.style.display = "block";
+qrCanvas.style.margin = "25px auto 0";
 } else {
   qrCanvas.style.display = "none";
 
