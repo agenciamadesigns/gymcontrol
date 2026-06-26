@@ -1856,3 +1856,211 @@ button:active,
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* APP CLIENTE PREMIUM */
+
+.cliente-app-premium {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.cliente-wallet-card {
+  width: 100%;
+  max-width: 430px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 36px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: var(--shadow-strong);
+}
+
+.wallet-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.wallet-top span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.wallet-top strong {
+  color: var(--primary);
+  font-size: 13px;
+  letter-spacing: .8px;
+}
+
+.cliente-foto-wrap {
+  width: 132px;
+  height: 132px;
+  margin: 0 auto 18px;
+  border-radius: 34px;
+  padding: 5px;
+  background: var(--primary-soft);
+}
+
+.cliente-app-foto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+.cliente-wallet-card h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: -1px;
+}
+
+.estado-app {
+  display: inline-block;
+  margin: 14px 0 20px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.activo-app {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.vencido-app {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.cliente-info-premium {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.cliente-info-premium div {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.cliente-info-premium span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.cliente-info-premium strong {
+  font-size: 15px;
+}
+
+.dias-card {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  padding: 15px;
+  border-radius: 20px;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+
+.dias-vencido {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.progreso-membresia {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.progreso-membresia div {
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 999px;
+}
+
+#qrCliente {
+  background: white;
+  padding: 14px;
+  border-radius: 26px;
+  border: 1px solid var(--border);
+}
+
+.nota-qr {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 14px;
+}
+
+.qr-bloqueado {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 22px;
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.qr-bloqueado h3 {
+  margin: 0 0 8px;
+}
+
+.qr-bloqueado p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.btn-whatsapp-cliente {
+  display: block;
+  margin-top: 16px;
+  padding: 15px 18px;
+  border-radius: 18px;
+  background: #25d366;
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.cliente-error {
+  padding: 30px 10px;
+}
+
+.cliente-error h2 {
+  margin-bottom: 8px;
+}
+
+.cliente-error p {
+  color: var(--muted);
+}
+
+@media (max-width: 480px) {
+  .cliente-app-premium {
+    padding: 14px;
+  }
+
+  .cliente-wallet-card {
+    border-radius: 30px;
+    padding: 22px;
+  }
+
+  .cliente-wallet-card h1 {
+    font-size: 28px;
+  }
+
+  .cliente-info-premium {
+    grid-template-columns: 1fr;
+  }
+}

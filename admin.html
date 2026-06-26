@@ -57,11 +57,20 @@
       </div>
     </section>
 
-    <button class="btn-nuevo-cliente" onclick="abrirModalCliente()">
-        + Registrar cliente
-    </button>
+<div class="clientes-toolbar">
+  <button class="btn-nuevo-cliente" onclick="abrirModalCliente()">
+    + Registrar cliente
+  </button>
 
-    <section class="clientes-section">
+  <input 
+    type="text" 
+    id="buscarCliente" 
+    placeholder="Buscar cliente por nombre, teléfono o correo..."
+    oninput="filtrarClientes()"
+  >
+</div>
+
+<section class="clientes-section">
       <h2>Lista de clientes</h2>
       <div id="listaClientes"></div>
     </section>

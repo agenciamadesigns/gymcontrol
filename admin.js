@@ -1,3 +1,5 @@
+let clientesGlobal = [];
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     await verificarSesion();
@@ -93,6 +95,11 @@ async function cargarClientes() {
     return;
   }
 
+  clientesGlobal = data;
+  renderizarClientes(clientesGlobal);
+}
+
+function renderizarClientes(clientes) {
   const lista = document.getElementById("listaClientes");
   lista.innerHTML = "";
 
@@ -101,43 +108,41 @@ async function cargarClientes() {
 
   const hoy = new Date().toISOString().split("T")[0];
 
-  data.forEach(cliente => {
+  clientes.forEach(cliente => {
     const vencido = cliente.fecha_vencimiento < hoy;
 
-    if (vencido) {
-      vencidos++;
-    } else {
-      activos++;
-    }
+    if (vencido) vencidos++;
+    else activos++;
 
     const card = document.createElement("div");
     card.className = "cliente-card";
 
-card.innerHTML = `
-  <div class="cliente-info-card">
-    <img class="cliente-foto" src="${cliente.foto_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(cliente.nombre) + '&background=eef2ff&color=3730a3'}">
+    card.innerHTML = `
+      <div class="cliente-info-card">
+        <img class="cliente-foto" src="${cliente.foto_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(cliente.nombre) + '&background=eef2ff&color=3730a3'}">
 
-    <div>
-      <h3>${cliente.nombre}</h3>
-      <p>Tel: ${cliente.telefono || "Sin teléfono"}</p>
-      <p>Membresía: ${cliente.tipo_membresia || "No definida"}</p>
-      <p>Vence: ${cliente.fecha_vencimiento}</p>
-      <p class="${vencido ? 'vencido' : 'activo'}">
-        ${vencido ? 'Vencido' : 'Activo'}
-      </p>
-    </div>
-  </div>
+        <div>
+          <h3>${cliente.nombre}</h3>
+          <p>Tel: ${cliente.telefono || "Sin teléfono"}</p>
+          <p>Correo: ${cliente.email || "Sin correo"}</p>
+          <p>Membresía: ${cliente.tipo_membresia || "No definida"}</p>
+          <p>Vence: ${cliente.fecha_vencimiento}</p>
+          <p class="${vencido ? 'vencido' : 'activo'}">
+            ${vencido ? 'Vencido' : 'Activo'}
+          </p>
+        </div>
+      </div>
 
-  <canvas id="qr-${cliente.id}"></canvas>
+      <canvas id="qr-${cliente.id}"></canvas>
 
-  <div class="acciones">
-    <button onclick="abrirPerfilCliente('${cliente.id}')">Perfil</button>
-    <button onclick="abrirAppCliente('${cliente.qr_token}')">Ver app</button>
-    <button onclick="copiarLinkCliente('${cliente.qr_token}')">Copiar link</button>
-    <button onclick="renovarCliente('${cliente.id}')">Renovar</button>
-    <button onclick="eliminarCliente('${cliente.id}')">Eliminar</button>
-  </div>
-`;
+      <div class="acciones">
+        <button onclick="abrirPerfilCliente('${cliente.id}')">Perfil</button>
+        <button onclick="abrirAppCliente('${cliente.qr_token}')">Ver app</button>
+        <button onclick="copiarLinkCliente('${cliente.qr_token}')">Copiar link</button>
+        <button onclick="renovarCliente('${cliente.id}')">Renovar</button>
+        <button onclick="eliminarCliente('${cliente.id}')">Eliminar</button>
+      </div>
+    `;
 
     lista.appendChild(card);
 
@@ -148,9 +153,34 @@ card.innerHTML = `
     );
   });
 
-  document.getElementById("totalClientes").textContent = data.length;
+  document.getElementById("totalClientes").textContent = clientesGlobal.length;
   document.getElementById("clientesActivos").textContent = activos;
   document.getElementById("clientesVencidos").textContent = vencidos;
+}
+
+function filtrarClientes() {
+  const texto = document.getElementById("buscarCliente").value.toLowerCase().trim();
+
+  if (!texto) {
+    renderizarClientes(clientesGlobal);
+    return;
+  }
+
+  const filtrados = clientesGlobal.filter(cliente => {
+    const nombre = (cliente.nombre || "").toLowerCase();
+    const telefono = (cliente.telefono || "").toLowerCase();
+    const email = (cliente.email || "").toLowerCase();
+    const membresia = (cliente.tipo_membresia || "").toLowerCase();
+
+    return (
+      nombre.includes(texto) ||
+      telefono.includes(texto) ||
+      email.includes(texto) ||
+      membresia.includes(texto)
+    );
+  });
+
+  renderizarClientes(filtrados);
 }
 
 let clienteRenovarId = null;

@@ -6,27 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 <body>
 
-<div class="cliente-app">
-  <div class="cliente-card-app">
+<div class="cliente-app-premium">
+  <div class="cliente-wallet-card">
 
-    <h1>Mi Credencial</h1>
-    <p class="subtitulo">Acceso digital al gimnasio</p>
+    <div class="wallet-top">
+      <span>Credencial Digital</span>
+      <strong>GYM ACCESS</strong>
+    </div>
 
     <div id="estadoCliente">
-      Cargando información...
+      Cargando credencial...
     </div>
 
     <canvas id="qrCliente"></canvas>
 
-    <p class="nota-qr">Muestra este código en recepción</p>
+    <div id="accionesCliente"></div>
 
   </div>
 </div>
@@ -38,7 +40,7 @@
 </script>
 
 <script src="supabase.js"></script>
-
 <script src="cliente.js"></script>
+
 </body>
 </html>
