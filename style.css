@@ -2064,3 +2064,59 @@ button:active,
     grid-template-columns: 1fr;
   }
 }
+
+/* FIX CORRECTO MODAL REGISTRO */
+#modalCliente {
+  place-items: center !important;
+  overflow: hidden !important;
+}
+
+#modalCliente .wizard-card {
+  max-height: calc(100vh - 48px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#modalCliente .wizard-actions {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 14px 0 0;
+  z-index: 20;
+}
+
+@media (max-width: 600px) {
+  #modalCliente {
+    padding: 10px !important;
+  }
+
+  #modalCliente .wizard-card {
+    max-height: calc(100vh - 20px) !important;
+    width: 100%;
+  }
+
+  #modalCliente .renovar-info {
+    grid-template-columns: 1fr;
+  }
+
+  #modalCliente .planes-registro {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.plan-card.activo {
+    background: linear-gradient(135deg, #4f46e5, #3730a3);
+    border-color: #4f46e5;
+    color: white;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(79, 70, 229, .35);
+}
+
+.plan-card.activo strong,
+.plan-card.activo span {
+    color: white;
+}
+
+.plan-card.activo span {
+    opacity: 0.95;
+}
